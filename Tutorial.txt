@@ -1,0 +1,7 @@
+1) https://betacode.net/12753/android-asynctaskloader#a62493902
+
+2) https://www.youtube.com/watch?v=7GeDoh7k6l4&ab_channel=NecoRu
+
+3) https://stackoverflow.com/questions/33229869/get-json-data-from-url-using-android
+
+4) https://stackoverflow.com/questions/42979409/structure-jsoup-content-to-json
