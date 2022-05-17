@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSS Конвертор Валют</string>
+    <string name="currencyLoadSuccess">Валюта Завантажена</string>
+    <string name="update">Оновити</string>
+    <string name="cancel">Видалити</string>
+    <string name="currency_original">Поточна валюта</string>
+    <string name="select_currency">Потрібна валюта</string>
+    <string name="converter">Конвертер</string>
+</resources>

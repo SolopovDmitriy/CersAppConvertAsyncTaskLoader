@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">CursAppConvertAsyncTaskLoader</string>
+    <string name="currencyLoadSuccess">Currency Loaded</string>
+
+
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="currency_original">Currency Original</string>
+    <string name="select_currency">Select Currency</string>
+    <string name="converter">Converter</string>
+
+
+    <!--    <string name="currencyLoadError">Error: Currency Not Loaded</string>-->
+<!--    <string name="button_load">Update</string>-->
+<!--    <string name="button_cancel">Cancel</string>-->
+<!--    <string name="textView2">Currency Original</string>-->
+<!--    <string name="textView3">Select Currency</string>-->
+<!--    <string name="editTextHaveCurrency">editTextHaveCurrency</string>-->
+<!--    <string name="getCurrencyTextView">getCurrencyTextView</string>-->
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CursAppConvertAsyncTaskLoader</string>
+    <string name="currencyLoadSuccess">Währung geladen</string>
+    <string name="update">Aktualisieren</string>
+    <string name="cancel">" Absagen"</string>
+    <string name="currency_original">" Währung Original"</string>
+    <string name="select_currency">Währung wählen</string>
+    <string name="converter">" Konverter"</string>
+</resources>

@@ -6,17 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.cursappconvertasynctaskloader.databinding.ActivityMainBinding;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity //
         implements LoaderManager.LoaderCallbacks<List<Currency>>,
@@ -192,4 +197,79 @@ public class MainActivity extends AppCompatActivity //
             binding.buttonCancel.setEnabled(false);
         }
     }
+
+    // =============================================================================================
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        // return true so that the menu pop up is opened
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.english:
+                Toast.makeText(MainActivity.this,
+                        "English language",
+                        Toast.LENGTH_LONG).show();
+                setLocale("en");
+                recreate();
+                break;
+
+            case R.id.ukraine:
+                Toast.makeText(MainActivity.this,
+                        "Ukraine language",
+                        Toast.LENGTH_LONG).show();
+                setLocale("uk");
+                recreate();
+                break;
+        }
+        return true;
+    }
+
+    // =============================================================================================
+
+
+
+    public void setLocale(String locale) // Pass "en","hi", etc.
+    {
+        Locale myLocale = new Locale(locale);
+        Locale.setDefault(myLocale);
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        config.setLocale(myLocale);
+
+        getBaseContext().createConfigurationContext(config);
+//        getBaseContext().getResources().updateConfiguration(config,
+//                getBaseContext().getResources().getDisplayMetrics());
+
+    }
+
+
+    public void setLocale2(String locale) // Pass "en","hi", etc.
+    {
+        Locale myLocale = new Locale(locale);
+        // Saving selected locale to session - SharedPreferences.
+        // saveLocale(locale);
+        // Changing locale.
+        Locale.setDefault(myLocale);
+
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(myLocale);
+        } else {
+            config.locale = myLocale;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            getBaseContext().createConfigurationContext(config);
+        } else {
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+
+    }
+
+
 }
