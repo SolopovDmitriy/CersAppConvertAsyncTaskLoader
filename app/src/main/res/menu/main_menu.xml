@@ -2,9 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/english"
-        android:title="Item1" />
+        android:id="@+id/englishMenuItem"
+        android:title="English" />
     <item
-        android:id="@+id/ukraine"
-        android:title="Item2" />
+        android:id="@+id/ukraineMenuItem"
+        android:title="Ukraine" />
+    <item
+        android:id="@+id/germanMenuItem"
+        android:title="German" />
+    <item
+        android:id="@+id/lightThemeMenuItem"
+        android:title="Light Theme" />
+    <item
+        android:id="@+id/darkThemeMenuItem"
+        android:title="Dark Theme" />
+    <item
+        android:id="@+id/landscapeMenuItem"
+        android:title="Landscape" />
+    <item
+        android:id="@+id/portraitMenuItem"
+        android:title="Portrait" />
 </menu>

@@ -3,13 +3,14 @@ package com.example.cursappconvertasynctaskloader;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
-import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity //
         Loader.OnLoadCanceledListener<List<Currency>> {
 
     private static final String LOG_TAG = "AndroidExample";
-    private static final int LOADER_ID_USERACCOUNT = 10000;
+    private static final int LOADER_ID_CURRENCY = 10000;
 
     // private Button buttonLoad;
     // private Button buttonCancel;
@@ -60,19 +61,8 @@ public class MainActivity extends AppCompatActivity //
         binding.progressBar.setVisibility(View.GONE);
         binding.buttonCancel.setEnabled(false);
 
-        binding.buttonLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickButtonLoad();
-            }
-        });
-
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickButtonCancel();
-            }
-        });
+        binding.buttonLoad.setOnClickListener(v -> clickButtonLoad());
+        binding.buttonCancel.setOnClickListener(v -> clickButtonCancel());
 
         binding.convertButton.setOnClickListener(view -> {
             Currency currencyGet = (Currency) binding.currencyGetSpinner.getSelectedItem();
@@ -81,12 +71,25 @@ public class MainActivity extends AppCompatActivity //
 
             double moneyHave = Double.parseDouble(moneyString); // exception
             double moneyGet = Math.round(moneyHave * currencyHave.getBuy() / currencyGet.getSale() * 100.0) / 100.0;
-            binding.getCurrencyTextView.setText(String.valueOf(moneyGet));
+            binding.editTextGetCurrency.setText(String.valueOf(moneyGet));
+
         });
         this.loaderManager = LoaderManager.getInstance(this);
 
         binding.buttonLoad.performClick();
+
+        // [uk_UA,en_US,de_DE]
+        Configuration config = getBaseContext().getResources().getConfiguration();
+
+        LocaleList localeList = config.getLocales();
+        Locale current = getResources().getConfiguration().locale;
+
+
+
     }
+
+
+
 
     // User click on "Load Data" button.
     private void clickButtonLoad() {
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity //
         args.putString(KEY_PARAM2, "Some value2");
 
         // You can pass a null args to a Loader
-        Loader<List<Currency>> loader =  this.loaderManager.initLoader(LOADER_ID_USERACCOUNT, args, loaderCallbacks);
+        Loader<List<Currency>> loader =  this.loaderManager.initLoader(LOADER_ID_CURRENCY, args, loaderCallbacks);
         try {
             loader.registerOnLoadCanceledListener(this); // Loader.OnLoadCanceledListener
         } catch(IllegalStateException e) {
@@ -111,8 +114,7 @@ public class MainActivity extends AppCompatActivity //
 
     // User click on "Cancel" button.
     private void clickButtonCancel() {
-        Log.i(LOG_TAG, "cancelLoadUserAccount");
-        Loader<List<Currency>> loader = this.loaderManager.getLoader(LOADER_ID_USERACCOUNT);
+        Loader<List<Currency>> loader = this.loaderManager.getLoader(LOADER_ID_CURRENCY);
         if(loader != null)  {
             boolean cancelled = loader.cancelLoad();
         }
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity //
 
         binding.progressBar.setVisibility(View.VISIBLE); // To show
 
-        if(id == LOADER_ID_USERACCOUNT) {
+        if(id == LOADER_ID_CURRENCY) {
             binding.buttonLoad.setEnabled(false);
             binding.buttonCancel.setEnabled(true);
             // Parameters:
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity //
     public void onLoadFinished(@NonNull Loader<List<Currency>> loader, List<Currency> data) {
         Log.i(LOG_TAG, "onLoadFinished");
 
-        if(loader.getId() == LOADER_ID_USERACCOUNT) {
+        if(loader.getId() == LOADER_ID_CURRENCY) {
             // Destroy a Loader by ID.
             this.loaderManager.destroyLoader(loader.getId());
 
@@ -187,12 +189,10 @@ public class MainActivity extends AppCompatActivity //
     // Implements method of Loader.OnLoadCanceledListener
     @Override
     public void onLoadCanceled(@NonNull Loader<List<Currency>> loader) {
-        Log.i(LOG_TAG, "onLoadCanceled");
-
-        if(loader.getId() == LOADER_ID_USERACCOUNT) {
+        if(loader.getId() == LOADER_ID_CURRENCY) {
             // Destroy a Loader by ID.
             this.loaderManager.destroyLoader(loader.getId());
-            binding.progressBar.setVisibility(View.GONE); // To hide
+            binding.progressBar.setVisibility(View.GONE); // To hide progressBar
             binding.buttonLoad.setEnabled(true);
             binding.buttonCancel.setEnabled(false);
         }
@@ -208,23 +208,67 @@ public class MainActivity extends AppCompatActivity //
         return true;
     }
 
+
+
+    //  // [uk_UA,en_US,de_DE]
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        return super.onOptionsItemSelected(item);
         switch (item.getItemId()){
-            case R.id.english:
+            case R.id.englishMenuItem:
                 Toast.makeText(MainActivity.this,
                         "English language",
                         Toast.LENGTH_LONG).show();
-                setLocale("en");
+                // setLocale("en_US");
+                // setLocale("en");
+                setLocale("en_us");
                 recreate();
                 break;
 
-            case R.id.ukraine:
+            case R.id.ukraineMenuItem:
                 Toast.makeText(MainActivity.this,
                         "Ukraine language",
                         Toast.LENGTH_LONG).show();
-                setLocale("uk");
+                // setLocale("uk_UA");
+                setLocale("uk_ua");
+                recreate();
+                break;
+            case R.id.germanMenuItem:
+                Toast.makeText(MainActivity.this,
+                        "German language",
+                        Toast.LENGTH_LONG).show();
+                // setLocale("de_DE");
+                setLocale("de_de");
+                recreate();
+                break;
+            case R.id.lightThemeMenuItem:
+                Toast.makeText(MainActivity.this,
+                        "Light theme is enabled",
+                        Toast.LENGTH_LONG).show();
+                AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_NO);
+                recreate();
+                break;
+            case R.id.darkThemeMenuItem:
+                Toast.makeText(MainActivity.this,
+                        "Dark theme is enabled",
+                        Toast.LENGTH_LONG).show();
+                AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_YES);
+                recreate();
+                break;
+            case R.id.portraitMenuItem:
+                Toast.makeText(MainActivity.this,
+                        "Portrait orientation",
+                        Toast.LENGTH_LONG).show();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                recreate();
+                break;
+            case R.id.landscapeMenuItem:
+                Toast.makeText(MainActivity.this,
+                        "Landscape orientation",
+                        Toast.LENGTH_LONG).show();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 recreate();
                 break;
         }
@@ -235,41 +279,22 @@ public class MainActivity extends AppCompatActivity //
 
 
 
-    public void setLocale(String locale) // Pass "en","hi", etc.
+
+
+    public void setLocale(String locale) // Pass "en","uk", "de".
     {
         Locale myLocale = new Locale(locale);
+        // Locale myLocale = Locale.UK;
         Locale.setDefault(myLocale);
         Configuration config = getBaseContext().getResources().getConfiguration();
+//        config.isNightModeActive();
         config.setLocale(myLocale);
-
-        getBaseContext().createConfigurationContext(config);
-//        getBaseContext().getResources().updateConfiguration(config,
-//                getBaseContext().getResources().getDisplayMetrics());
-
+        LocaleList localeList = new LocaleList(myLocale);
+        LocaleList.setDefault(localeList);
+        config.setLocales(localeList);
+        getBaseContext().createConfigurationContext(config); // обновляем config
     }
 
-
-    public void setLocale2(String locale) // Pass "en","hi", etc.
-    {
-        Locale myLocale = new Locale(locale);
-        // Saving selected locale to session - SharedPreferences.
-        // saveLocale(locale);
-        // Changing locale.
-        Locale.setDefault(myLocale);
-
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            config.setLocale(myLocale);
-        } else {
-            config.locale = myLocale;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            getBaseContext().createConfigurationContext(config);
-        } else {
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        }
-
-    }
 
 
 }

@@ -43,16 +43,8 @@ public class UserAccountTaskLoader extends AsyncTaskLoader<List<Currency>> {
         Gson gson = new Gson();
         Currency[] currencyArray = gson.fromJson(jsonString, Currency[].class);
         List<Currency> currencyList = new ArrayList<>(Arrays.asList(currencyArray));
-
-
-
-
-//        List<Currency> list = new ArrayList<Currency>();
-//        list.add(new Currency(jsonString, "tom@example.com", "Tom"));
-//        list.add(new Currency("jerry", "jerry@example.com", "Jerry"));
-//        list.add(new Currency("donald", "donald@example.com", "Donald"));
-        SystemClock.sleep(2000); // 2 Seconds.
-        //  return list;
+        currencyList.add(new Currency("UAH", "grn", 1, 1));
+        SystemClock.sleep(100); // 1 mSeconds.
         return currencyList;
     }
 

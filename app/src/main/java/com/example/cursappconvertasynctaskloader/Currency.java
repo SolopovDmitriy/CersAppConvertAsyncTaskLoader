@@ -12,6 +12,12 @@ public class Currency {
 
     private double sale;
 
+    public Currency(String ccy, String base_ccy, double buy, double sale) {
+        this.ccy = ccy;
+        this.base_ccy = base_ccy;
+        this.buy = buy;
+        this.sale = sale;
+    }
 
     public String getCcy() {
         return ccy;
