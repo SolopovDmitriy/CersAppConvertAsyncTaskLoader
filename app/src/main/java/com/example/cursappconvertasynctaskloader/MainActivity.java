@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity //
 
     private static final String LOG_TAG = "AndroidExample";
     private static final int LOADER_ID_CURRENCY = 10000;
+    private static String localeName = "en";
 
     // private Button buttonLoad;
     // private Button buttonCancel;
@@ -78,16 +80,19 @@ public class MainActivity extends AppCompatActivity //
 
         binding.buttonLoad.performClick();
 
-        // [uk_UA,en_US,de_DE]
-        Configuration config = getBaseContext().getResources().getConfiguration();
-
-        LocaleList localeList = config.getLocales();
-        Locale current = getResources().getConfiguration().locale;
-
-
-
     }
 
+
+    //установка локализации по имени
+    @Override
+    protected void attachBaseContext(Context context) {
+        //SET LOCALE
+        Locale locale = new Locale(localeName);
+        Locale.setDefault(locale);
+        context.getResources().getConfiguration().setLocale(locale);
+        //
+        super.attachBaseContext(context);
+    }
 
 
 
@@ -154,23 +159,6 @@ public class MainActivity extends AppCompatActivity //
             binding.currencyGetSpinner.setAdapter(adapter);  // Применяем адаптер к элементу spinner
             binding.currencyHaveSpinner.setAdapter(adapter);  // Применяем адаптер к элементу spinner
 
-//            ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, countries);
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            binding.currencyGetSpinner.setAdapter(adapter);  // Применяем адаптер к элементу spinner
-//            binding.currencyHaveSpinner.setAdapter(adapter);  // Применяем адаптер к элементу spinner
-
-
-//            String s= "";
-//
-//            for(Currency currency: data)  {
-//                s += "ccy: " + currency.getCcy() + "\t buy: " + currency.getBuy() + "\t \t \t \t \t \t sell: " + currency.getSale() +"\n";
-//            }
-//            this.textView.setText(s);
-//
-//            // ccy: USD buy:30 sell:32
-//            // cc:  EUR buy:35 sell 37
-
-
 
             // Hide ProgressBar.
             binding.progressBar.setVisibility(View.GONE);
@@ -210,7 +198,7 @@ public class MainActivity extends AppCompatActivity //
 
 
 
-    //  // [uk_UA,en_US,de_DE]
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        return super.onOptionsItemSelected(item);
@@ -219,9 +207,7 @@ public class MainActivity extends AppCompatActivity //
                 Toast.makeText(MainActivity.this,
                         "English language",
                         Toast.LENGTH_LONG).show();
-                // setLocale("en_US");
-                // setLocale("en");
-                setLocale("en_us");
+                localeName="en";
                 recreate();
                 break;
 
@@ -229,16 +215,14 @@ public class MainActivity extends AppCompatActivity //
                 Toast.makeText(MainActivity.this,
                         "Ukraine language",
                         Toast.LENGTH_LONG).show();
-                // setLocale("uk_UA");
-                setLocale("uk_ua");
+                localeName="uk";
                 recreate();
                 break;
             case R.id.germanMenuItem:
                 Toast.makeText(MainActivity.this,
                         "German language",
                         Toast.LENGTH_LONG).show();
-                // setLocale("de_DE");
-                setLocale("de_de");
+                localeName="de";
                 recreate();
                 break;
             case R.id.lightThemeMenuItem:
@@ -277,23 +261,6 @@ public class MainActivity extends AppCompatActivity //
 
     // =============================================================================================
 
-
-
-
-
-    public void setLocale(String locale) // Pass "en","uk", "de".
-    {
-        Locale myLocale = new Locale(locale);
-        // Locale myLocale = Locale.UK;
-        Locale.setDefault(myLocale);
-        Configuration config = getBaseContext().getResources().getConfiguration();
-//        config.isNightModeActive();
-        config.setLocale(myLocale);
-        LocaleList localeList = new LocaleList(myLocale);
-        LocaleList.setDefault(localeList);
-        config.setLocales(localeList);
-        getBaseContext().createConfigurationContext(config); // обновляем config
-    }
 
 
 
